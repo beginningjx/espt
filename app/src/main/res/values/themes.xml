@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Espt" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryVariant">@android:color/transparent</item>
+        <item name="colorOnPrimary">@android:color/transparent</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@android:color/transparent</item>
+        <item name="colorSecondaryVariant">@android:color/transparent</item>
+        <item name="colorOnSecondary">@android:color/transparent</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
