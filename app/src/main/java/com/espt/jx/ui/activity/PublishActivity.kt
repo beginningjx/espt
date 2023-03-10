@@ -41,10 +41,7 @@ class PublishActivity : AppCompatActivity() {
         mRecyclerView.adapter = homeAdapter
 
         CoroutineScope(Dispatchers.IO).launch {
-            mList.addAll(
-                App.db.dataDao()
-                    .getDataIds(App.db.publishDao().getAllId(DataStoreUtils.getData("id", 0)))
-            )
+            mList.addAll(App.db.dataDao().getUserId(DataStoreUtils.getData("id", 0)))
             withContext(Dispatchers.Main) {
                 homeAdapter.notifyDataSetChanged()
             }
@@ -69,10 +66,5 @@ class PublishActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.close).setOnClickListener {
             finish()
         }
-    }
-
-    override fun onDestroy() {
-        App.db.close()
-        super.onDestroy()
     }
 }

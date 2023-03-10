@@ -23,6 +23,14 @@ interface DataDao {
     fun getDataId(mId: Int): Data
 
     /**
+     * 根据用户ID查找对应数据
+     * @param [mId] 用户ID
+     * @return [Data]
+     */
+    @Query("SELECT * FROM data where data_id = :mId")
+    fun getUserId(mId: Int): List<Data>
+
+    /**
      * 根据数据ID查找对应数据
      * @param [mId] m id
      * @return [List<Data>]

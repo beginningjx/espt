@@ -19,6 +19,8 @@ import com.espt.jx.dao.Data
 import com.espt.jx.dao.History
 import com.espt.jx.dao.User
 import com.espt.jx.utils.DataStoreUtils
+import com.espt.jx.utils.FlowUtil
+import com.espt.jx.utils.LiveDataUtils
 import com.espt.jx.utils.StatusBarUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -105,6 +107,12 @@ class DetailsActivity : AppCompatActivity() {
                     // 有,删除收藏
                     App.db.collectDao().delete(userId, dataId)
                     isCollect(R.drawable.collect, R.color.black)
+
+                    val intExtra = intent.getIntExtra("position", -1)
+                    if (intExtra != -1) {
+                        //赋值
+                        FlowUtil.uiState.tryEmit(intExtra)
+                    }
                 } else {
                     // 没有,添加收藏
                     App.db.collectDao().insert(Collect(null, userId, dataId))

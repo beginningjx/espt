@@ -69,10 +69,4 @@ class HistoryActivity : AppCompatActivity() {
             finish()
         }
     }
-
-    override fun onDestroy() {
-        App.db.close()
-        super.onDestroy()
-    }
-
 }

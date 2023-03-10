@@ -168,10 +168,4 @@ class SellActivity : AppCompatActivity() {
 
         }
     }
-
-    override fun onDestroy() {
-        App.db.close()
-        super.onDestroy()
-    }
-
 }
