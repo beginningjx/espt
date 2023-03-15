@@ -65,7 +65,7 @@ class SearchActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 App.db.hsDao().deleteHistoryData(mEditText.text.toString())
                 App.db.hsDao()
-                    .insert(HS(DataStoreUtils.getData("id", 0), mEditText.text.toString()))
+                    .insert(HS(null, DataStoreUtils.getData("id", 0), mEditText.text.toString()))
             }
         }
 

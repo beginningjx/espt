@@ -24,7 +24,7 @@ class SearchDFragment : Fragment() {
 
     private lateinit var mView: View
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var homeAdapter: HomeAdapter
+    private var homeAdapter: HomeAdapter? = null
     private val mList by lazy { ArrayList<Data>() }
 
     override fun onCreateView(
@@ -43,7 +43,7 @@ class SearchDFragment : Fragment() {
         homeAdapter = HomeAdapter(mList)
         mRecyclerView.adapter = homeAdapter
 
-        homeAdapter.setOnItemClickListener { adapter, _, position ->
+        homeAdapter?.setOnItemClickListener { adapter, _, position ->
             val intent = Intent(requireContext(), DetailsActivity::class.java)
             intent.putExtra("id", adapter.getItem(position)?.data_id)
             LoginUtils.isLogin(requireContext(), intent)
@@ -61,7 +61,7 @@ class SearchDFragment : Fragment() {
             mList.addAll(App.db.dataDao().getIntroductionLike(string))
 
             withContext(Dispatchers.Main) {
-                homeAdapter.notifyDataSetChanged()
+                homeAdapter?.notifyDataSetChanged()
             }
         }
     }

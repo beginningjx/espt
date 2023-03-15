@@ -42,7 +42,7 @@ class SearchHFragment : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             if (DataStoreUtils.getData("id", 0) != 0) {
-                mList.addAll(App.db.hsDao().getAll())
+                mList.addAll(App.db.hsDao().getAll(DataStoreUtils.getData("id", 0)))
             }
         }
 
@@ -55,7 +55,7 @@ class SearchHFragment : Fragment() {
                 CoroutineScope(Dispatchers.IO).launch {
                     App.db.hsDao().deleteHistoryData(mList[position].history)
                     App.db.hsDao()
-                        .insert(HS(DataStoreUtils.getData("id", 0), mList[position].history))
+                        .insert(HS(null, DataStoreUtils.getData("id", 0), mList[position].history))
                 }
             }
         }

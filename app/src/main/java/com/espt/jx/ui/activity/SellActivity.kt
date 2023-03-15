@@ -60,7 +60,7 @@ class SellActivity : AppCompatActivity() {
         sellAdapter.onItemClick = { _, _ ->
             PictureSelector.create(this)
                 .openGallery(SelectMimeType.ofImage())
-                .setImageEngine(GlideEngine.createGlideEngine()).setMaxSelectNum(6)
+                .setImageEngine(GlideEngine.createGlideEngine()).setMaxSelectNum(7 - mList.size)
                 .setCompressEngine(CompressFileEngine { context, source, call ->
                     Luban.with(context).load(source).ignoreBy(100)
                         .setCompressListener(object : OnNewCompressListener {

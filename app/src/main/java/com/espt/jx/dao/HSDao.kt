@@ -11,8 +11,8 @@ interface HSDao {
      * 获取所有数据
      * @return [List<HS>]
      */
-    @Query("select * from hs")
-    fun getAll(): List<HS>
+    @Query("select * from hs where user_id = :mId")
+    fun getAll(mId: Int): List<HS>
 
     @Insert
     fun insert(hs: HS)
@@ -27,7 +27,7 @@ interface HSDao {
     /**
      * 删除所有数据
      */
-    @Query("delete from hs where id = :mId")
+    @Query("delete from hs where user_id = :mId")
     fun deleteAllData(mId: Int)
 
 }
