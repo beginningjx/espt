@@ -48,7 +48,8 @@
                     android:singleLine="true"
                     android:textColor="@color/fontColor"
                     android:textColorHint="@color/gray"
-                    android:textSize="@dimen/fontSmallSize" />
+                    android:textSize="@dimen/fontSmallSize"
+                    android:theme="@style/MyEditTextStyle" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="70dp"

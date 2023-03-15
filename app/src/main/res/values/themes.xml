@@ -14,6 +14,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="MyEditTextStyle">
+        <item name="colorControlNormal">@color/background</item>
+        <item name="colorControlActivated">@color/background</item>
+    </style>
+
     <style name="DialogUtil" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>

@@ -86,14 +86,14 @@
                 android:layout_height="20dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/category"
-                app:tint="@color/fontColor" />
+                app:tint="@color/background" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="分类"
-                android:textColor="@color/fontColor"
+                android:textColor="@color/background"
                 android:textSize="@dimen/fontBigSize"
                 android:textStyle="bold" />
 
@@ -110,7 +110,7 @@
                 android:layout_height="20dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/right"
-                app:tint="@color/fontColor" />
+                app:tint="@color/background" />
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
@@ -135,13 +135,13 @@
                 android:layout_height="20dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/money"
-                app:tint="@color/fontColor" />
+                app:tint="@color/background" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="价格"
-                android:textColor="@color/fontColor"
+                android:textColor="@color/background"
                 android:textSize="@dimen/fontBigSize"
                 android:textStyle="bold" />
 
@@ -153,11 +153,12 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:hint="￥0.00"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLength="6"
             android:textColor="@color/fontColor"
             android:textColorHint="@color/fontHintColor"
-            android:textSize="@dimen/fontSmallSize" />
+            android:textSize="@dimen/fontSmallSize"
+            android:theme="@style/MyEditTextStyle" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

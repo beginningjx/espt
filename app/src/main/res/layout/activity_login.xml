@@ -63,7 +63,8 @@
                     android:inputType="number"
                     android:singleLine="true"
                     android:textColorHint="@color/fontHintColor"
-                    android:textSize="@dimen/fontSize" />
+                    android:textSize="@dimen/fontSize"
+                    android:theme="@style/MyEditTextStyle" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -94,7 +95,8 @@
                     android:hint="密码"
                     android:singleLine="true"
                     android:textColorHint="@color/fontHintColor"
-                    android:textSize="@dimen/fontSize" />
+                    android:textSize="@dimen/fontSize"
+                    android:theme="@style/MyEditTextStyle" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -132,7 +134,8 @@
                         android:hint="验证码"
                         android:singleLine="true"
                         android:textColorHint="@color/fontHintColor"
-                        android:textSize="@dimen/fontSize" />
+                        android:textSize="@dimen/fontSize"
+                        android:theme="@style/MyEditTextStyle" />
 
                     <TextView
                         android:id="@+id/code2"

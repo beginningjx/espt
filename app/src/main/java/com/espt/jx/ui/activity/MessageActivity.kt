@@ -28,7 +28,7 @@ class MessageActivity : AppCompatActivity() {
     private val mHistory: TextView by lazy { findViewById(R.id.history) }
     private val mPublish: TextView by lazy { findViewById(R.id.publish) }
     private val mModify: Button by lazy { findViewById(R.id.modify) }
-    private val mCancellation: TextView by lazy { findViewById(R.id.cancellation) }
+    private val mCancellationOfAccount: TextView by lazy { findViewById(R.id.cancellationOfAccount) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +63,23 @@ class MessageActivity : AppCompatActivity() {
                 mCollect.text = "${collect.size}"
                 mHistory.text = "${history.size}"
                 mPublish.text = "${data.size}"
+
+                mCancellationOfAccount.setOnClickListener {
+                    DialogUtil.textDialog(
+                        context = this@MessageActivity,
+                        contents = "注销之后无法恢复，确定注销吗？",
+                        cDetermine = {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                App.db.userDao().delete(user.id!!)
+                            }
+                            DataStoreUtils.clearData()
+                            FlowBus.send("MyFragment", 1)
+                            Toast.makeText(applicationContext, "注销成功！", Toast.LENGTH_SHORT).show()
+                            finish()
+                        })
+                }
             }
+
             mModify.setOnClickListener {
                 if (mTitle.isVisible) {
                     // 修改
@@ -95,21 +111,6 @@ class MessageActivity : AppCompatActivity() {
                     mTitle.text = mTitleEdit.text.toString()
                     Toast.makeText(applicationContext, "修改成功！", Toast.LENGTH_SHORT).show()
                 }
-            }
-
-            mCancellation.setOnClickListener {
-                DialogUtil.textDialog(
-                    context = this@MessageActivity,
-                    contents = "注销之后无法恢复，确定注销吗？",
-                    cDetermine = {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            App.db.userDao().delete(user.id!!)
-                        }
-                        DataStoreUtils.clearData()
-                        FlowBus.send("MyFragment", 1)
-                        Toast.makeText(applicationContext, "注销成功！", Toast.LENGTH_SHORT).show()
-                        finish()
-                    })
             }
         }
     }

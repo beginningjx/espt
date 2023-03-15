@@ -65,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
                     val body = OkHttpClient().newCall(
                         Request.Builder().url("https://api.btstu.cn/qqxt/api.php?qq=${mQq.text}")
                             .get().build()
-                    ).execute().body?.string()
+                    ).execute().body.string()
 
                     val fromJson = Gson().fromJson(body, JsonObject::class.java)
 
@@ -109,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
                     val body = OkHttpClient().newCall(
                         Request.Builder().url("https://api.btstu.cn/qqxt/api.php?qq=${mQq.text}")
                             .get().build()
-                    ).execute().body?.string()
+                    ).execute().body.string()
 
                     val fromJson = Gson().fromJson(body, JsonObject::class.java)
 
