@@ -27,7 +27,7 @@ interface HSDao {
     /**
      * 删除所有数据
      */
-    @Query("delete from hs")
-    fun deleteAllData()
+    @Query("delete from hs where id = :mId")
+    fun deleteAllData(mId: Int)
 
 }

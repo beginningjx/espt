@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.espt.jx.App
@@ -12,6 +13,7 @@ import com.espt.jx.R
 import com.espt.jx.adapter.StringAdapter
 import com.espt.jx.dao.HS
 import com.espt.jx.ui.activity.SearchActivity
+import com.espt.jx.utils.DataStoreUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,8 +29,7 @@ class SearchHFragment : Fragment() {
     private val mList by lazy { ArrayList<HS>() }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         mView = inflater.inflate(R.layout.fragment_search_h, container, false)
         init()
@@ -40,7 +41,9 @@ class SearchHFragment : Fragment() {
         mRecyclerView = mView.findViewById(R.id.recyclerView)
 
         CoroutineScope(Dispatchers.IO).launch {
-            mList.addAll(App.db.hsDao().getAll())
+            if (DataStoreUtils.getData("id", 0) != 0) {
+                mList.addAll(App.db.hsDao().getAll())
+            }
         }
 
         stringAdapter = StringAdapter(mList)
@@ -48,10 +51,12 @@ class SearchHFragment : Fragment() {
 
         stringAdapter.onItemClick = { _, position ->
             (requireContext() as SearchActivity).setSearchDFragment(mList[position].history)
-
-            CoroutineScope(Dispatchers.IO).launch {
-                App.db.hsDao().deleteHistoryData(mList[position].history)
-                App.db.hsDao().insert(HS(null, mList[position].history))
+            if (DataStoreUtils.getData("id", 0) != 0) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    App.db.hsDao().deleteHistoryData(mList[position].history)
+                    App.db.hsDao()
+                        .insert(HS(DataStoreUtils.getData("id", 0), mList[position].history))
+                }
             }
         }
 
@@ -59,12 +64,22 @@ class SearchHFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 App.db.hsDao().deleteHistoryData(mList[position].history)
 
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     mList.remove(mList[position])
                     stringAdapter.notifyDataSetChanged()
                 }
             }
             false
+        }
+
+        mView.findViewById<ImageView>(R.id.clear).setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                App.db.hsDao().deleteAllData(DataStoreUtils.getData("id", 0))
+                withContext(Dispatchers.Main) {
+                    mList.clear()
+                    stringAdapter.notifyDataSetChanged()
+                }
+            }
         }
     }
 }

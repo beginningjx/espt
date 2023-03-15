@@ -15,6 +15,7 @@ import com.espt.jx.R
 import com.espt.jx.dao.HS
 import com.espt.jx.ui.fragment.SearchDFragment
 import com.espt.jx.ui.fragment.SearchHFragment
+import com.espt.jx.utils.DataStoreUtils
 import com.espt.jx.utils.StatusBarUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,9 +61,12 @@ class SearchActivity : AppCompatActivity() {
 
         setSearchDFragment()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            App.db.hsDao().deleteHistoryData(mEditText.text.toString())
-            App.db.hsDao().insert(HS(null, mEditText.text.toString()))
+        if (DataStoreUtils.getData("id", 0) != 0) {
+            CoroutineScope(Dispatchers.IO).launch {
+                App.db.hsDao().deleteHistoryData(mEditText.text.toString())
+                App.db.hsDao()
+                    .insert(HS(DataStoreUtils.getData("id", 0), mEditText.text.toString()))
+            }
         }
 
         // 隐藏软键盘
