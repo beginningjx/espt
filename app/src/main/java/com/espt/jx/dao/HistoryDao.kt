@@ -1,7 +1,6 @@
 package com.espt.jx.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 
@@ -23,4 +22,10 @@ interface HistoryDao {
 
     @Query("delete from history where user_id = :mId and data_id = :uId")
     fun delete(mId: Int, uId: Int)
+
+    /**
+     * 删除所有
+     */
+    @Query("delete from history where user_id = :mId")
+    fun deleteAll(mId: Int)
 }

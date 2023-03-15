@@ -5,10 +5,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Publish(
+data class HS(
+    // ID
     @PrimaryKey val id: Int?,
-    // 用户ID
-    @ColumnInfo val user_id: Int,
-    // 数据ID
-    @ColumnInfo val data_id: Int,
+    // 简介
+    @ColumnInfo val history: String,
 )

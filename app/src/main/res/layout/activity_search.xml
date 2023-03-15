@@ -5,18 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.fragment.HomeFragment">
+    tools:context=".ui.activity.SearchActivity">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/left"
+            app:tint="@color/background" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/search"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="20dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="10dp"
             android:theme="@style/Theme.MaterialComponents"
             app:cardCornerRadius="20dp"
             app:strokeColor="@color/background"
@@ -28,15 +37,17 @@
                 android:background="@color/white"
                 android:orientation="horizontal">
 
-                <TextView
+                <EditText
+                    android:id="@+id/editText"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="start|center"
-                    android:paddingStart="5dp"
-                    android:text="请输入想要的商品"
+                    android:background="@null"
+                    android:hint="请输入想要的商品"
+                    android:paddingStart="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/fontColor"
-                    android:textColorHint="@color/fontHintColor"
+                    android:textColorHint="@color/gray"
                     android:textSize="@dimen/fontSmallSize" />
 
                 <androidx.cardview.widget.CardView
@@ -46,6 +57,7 @@
                     app:cardCornerRadius="20dp">
 
                     <TextView
+                        android:id="@+id/search"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -55,26 +67,11 @@
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
+    </LinearLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:tabIndicator="@null"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/background"
-        app:tabTextColor="@color/fontColor" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:overScrollMode="never"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-        app:spanCount="2"
-        tools:listitem="@layout/item_home" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

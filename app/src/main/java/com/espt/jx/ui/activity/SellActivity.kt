@@ -11,48 +11,30 @@ import com.espt.jx.R
 import com.espt.jx.adapter.SellAdapter
 import com.espt.jx.dao.Data
 import com.espt.jx.utils.DataStoreUtils
+import com.espt.jx.utils.DataUtil
+import com.espt.jx.utils.GlideEngine
 import com.espt.jx.utils.StatusBarUtils
 import com.google.android.material.tabs.TabLayout
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
+import com.luck.picture.lib.engine.CompressFileEngine
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import top.zibin.luban.Luban
+import top.zibin.luban.OnNewCompressListener
+import java.io.File
 
 
 @SuppressLint("NotifyDataSetChanged")
 class SellActivity : AppCompatActivity() {
 
-    private val arrayOf = arrayOf(
-        "电脑数码",
-        "日用百货",
-        "汽车消费",
-        "游戏",
-        "食品生鲜",
-        "金融服务",
-        "家用电器",
-        "配饰腕表",
-        "旅游出行",
-        "运动户外",
-        "图书音像",
-        "文化娱乐",
-        "服饰鞋包",
-        "玩模乐器",
-        "房产置业",
-        "个护化妆",
-        "办公设备",
-        "健康服务",
-        "母婴用品",
-        "家居家装",
-        "艺术收藏"
-    )
     private val mClose: TextView by lazy { findViewById(R.id.close) }
     private val mPublish: CardView by lazy { findViewById(R.id.publish) }
     private val mEditText: EditText by lazy { findViewById(R.id.editText) }
     private val mRecyclerView: RecyclerView by lazy { findViewById(R.id.recyclerView) }
-    private val mCategory: LinearLayout by lazy { findViewById(R.id.category) }
     private val mCategoryText: TextView by lazy { findViewById(R.id.categoryText) }
     private val mTabLayout: TabLayout by lazy { findViewById(R.id.tabLayout) }
     private val mEditMoney: EditText by lazy { findViewById(R.id.editMoney) }
@@ -76,19 +58,31 @@ class SellActivity : AppCompatActivity() {
         mRecyclerView.adapter = sellAdapter
 
         sellAdapter.onItemClick = { _, _ ->
-            PictureSelector.create(this).openSystemGallery(SelectMimeType.ofImage())
-                .forSystemResult(object : OnResultCallbackListener<LocalMedia?> {
+            PictureSelector.create(this)
+                .openGallery(SelectMimeType.ofImage())
+                .setImageEngine(GlideEngine.createGlideEngine()).setMaxSelectNum(6)
+                .setCompressEngine(CompressFileEngine { context, source, call ->
+                    Luban.with(context).load(source).ignoreBy(100)
+                        .setCompressListener(object : OnNewCompressListener {
+                            override fun onStart() {}
+                            override fun onSuccess(source: String?, compressFile: File) {
+                                call?.onCallback(source, compressFile.absolutePath)
+                            }
 
+                            override fun onError(source: String?, e: Throwable?) {
+                                call?.onCallback(source, null)
+                            }
+                        }).launch()
+                })
+                .forResult(object : OnResultCallbackListener<LocalMedia?> {
                     override fun onResult(result: ArrayList<LocalMedia?>) {
                         for (item in result) {
-                            mList.add(0, item?.availablePath!!)
+                            mList.add(0, item?.compressPath!!)
                         }
                         sellAdapter.notifyDataSetChanged()
                     }
 
-                    override fun onCancel() {
-
-                    }
+                    override fun onCancel() {}
                 })
         }
 
@@ -122,7 +116,6 @@ class SellActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-
             val stringBuffer = StringBuffer()
             for (i in 0 until mList.size - 1) {
                 stringBuffer.append(mList[i]).append("&&&")
@@ -142,30 +135,17 @@ class SellActivity : AppCompatActivity() {
                     )
                 )
             }
+            setResult(0)
+            Toast.makeText(applicationContext, "发布成功！", Toast.LENGTH_SHORT).show()
+            finish()
         }
-        // 分类
-        mCategory.setOnClickListener {
 
-        }
-
-        for (item in arrayOf) {
+        for (item in DataUtil.arrayOf) {
             mTabLayout.addTab(mTabLayout.newTab().setText(item), false)
         }
 
-        mTabLayout.addOnTabSelectedListener(onTabSelectedListener())
-    }
-
-    private fun onTabSelectedListener() = object : TabLayout.OnTabSelectedListener {
-        override fun onTabSelected(tab: TabLayout.Tab?) {
-            mCategoryText.text = tab?.text
-        }
-
-        override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-        }
-
-        override fun onTabReselected(tab: TabLayout.Tab?) {
-
-        }
+        mTabLayout.addOnTabSelectedListener(DataUtil.onTabSelectedListener {
+            mCategoryText.text = it?.text
+        })
     }
 }

@@ -2,33 +2,29 @@ package com.espt.jx.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
-import androidx.lifecycle.Observer
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.espt.jx.App
 import com.espt.jx.R
 import com.espt.jx.adapter.HomeAdapter
 import com.espt.jx.dao.Data
-import com.espt.jx.utils.DataStoreUtils
-import com.espt.jx.utils.FlowUtil
-import com.espt.jx.utils.LiveDataUtils
-import com.espt.jx.utils.StatusBarUtils
+import com.espt.jx.utils.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@SuppressLint("NotifyDataSetChanged")
 class CollectActivity : AppCompatActivity() {
 
     private val mRecyclerView: RecyclerView by lazy { findViewById(R.id.recyclerView) }
-    private val mList: ArrayList<Data> by lazy { ArrayList() }
-    private lateinit var observer: Observer<Int>
+    private val mList by lazy { ArrayList<Data>() }
+    private lateinit var homeAdapter: HomeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,60 +36,63 @@ class CollectActivity : AppCompatActivity() {
 
     private fun init() {
         StatusBarUtils.defaultStatusBar(this)
+        homeAdapter = HomeAdapter(mList)
+        mRecyclerView.adapter = homeAdapter
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun initView() {
 
-        val homeAdapter = HomeAdapter(mList)
-        mRecyclerView.adapter = homeAdapter
+        initData()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            mList.addAll(
-                App.db.dataDao()
-                    .getDataIds(App.db.collectDao().getAllId(DataStoreUtils.getData("id", 0)))
-            )
-            withContext(Dispatchers.Main) {
-                homeAdapter.notifyDataSetChanged()
+        val registerForActivityResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                initData()
             }
-        }
 
-        homeAdapter.onItemClick = { _, position ->
+        homeAdapter.setOnItemClickListener { adapter, _, position ->
             val intent = Intent(this, DetailsActivity::class.java)
-            intent.putExtra("id", mList[position].data_id)
+            intent.putExtra("id", adapter.getItem(position)?.data_id)
             intent.putExtra("position", position)
-            startActivity(intent)
+            registerForActivityResult.launch(intent)
         }
-        homeAdapter.onItemLongClick = { _, position ->
+        homeAdapter.setOnItemLongClickListener { adapter, _, position ->
             CoroutineScope(Dispatchers.IO).launch {
                 App.db.collectDao()
-                    .delete(DataStoreUtils.getData("id", 0), mList[position].data_id!!)
+                    .delete(
+                        DataStoreUtils.getData("id", 0),
+                        mList[position].data_id!!
+                    )
                 withContext(Dispatchers.Main) {
-                    mList.removeAt(position)
-                    homeAdapter.notifyDataSetChanged()
+                    adapter.removeAt(position)
+                    adapter.notifyDataSetChanged()
                 }
             }
             false
         }
         findViewById<ImageView>(R.id.close).setOnClickListener { finish() }
 
-
-        LiveDataUtils.collectActivity.observe(this){
-            if (mList.isEmpty()) {
-                return@observe
-            }
-            mList.removeAt(it)
-            homeAdapter.notifyDataSetChanged()
-        }
-
-
-        // 接收删除收藏的通知
-        CoroutineScope(Dispatchers.Main).launch {
-            FlowUtil.uiState.collect {
-                if (mList.isEmpty()) {
-                    return@collect
+        findViewById<ImageView>(R.id.clear).setOnClickListener {
+            DialogUtil.textDialog(this, "警告！", "清空之后无法恢复，确定全部清空吗？", cDetermine = {
+                CoroutineScope(Dispatchers.IO).launch {
+                    App.db.collectDao().deleteAll(DataStoreUtils.getData("id", 0))
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(applicationContext, "清空成功！", Toast.LENGTH_SHORT).show()
+                        initData()
+                    }
                 }
-                mList.removeAt(it)
+            })
+        }
+    }
+
+
+    private fun initData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            mList.clear()
+            mList.addAll(
+                App.db.dataDao()
+                    .getDataIds(App.db.collectDao().getAllId(DataStoreUtils.getData("id", 0)))
+            )
+            withContext(Dispatchers.Main) {
                 homeAdapter.notifyDataSetChanged()
             }
         }

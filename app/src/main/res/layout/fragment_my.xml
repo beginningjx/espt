@@ -80,7 +80,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/collect" />
+                android:src="@drawable/collect"
+                app:tint="@color/background" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -103,7 +104,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/history" />
+                android:src="@drawable/history"
+                app:tint="@color/background" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -126,7 +128,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/publish" />
+                android:src="@drawable/publish"
+                app:tint="@color/background" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -144,13 +147,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/message" />
+            android:src="@drawable/message"
+            app:tint="@color/background" />
 
         <TextView
             android:layout_width="0dp"
@@ -162,10 +167,11 @@
             android:textSize="@dimen/fontSize" />
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/right" />
+            android:src="@drawable/right"
+            app:tint="@color/background" />
     </LinearLayout>
 
     <LinearLayout
@@ -173,13 +179,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/feedback" />
+            android:src="@drawable/feedback"
+            app:tint="@color/background" />
 
         <TextView
             android:layout_width="0dp"
@@ -191,10 +199,11 @@
             android:textSize="@dimen/fontSize" />
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/right" />
+            android:src="@drawable/right"
+            app:tint="@color/background" />
     </LinearLayout>
 
     <LinearLayout
@@ -202,13 +211,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/history" />
+            android:src="@drawable/history"
+            app:tint="@color/background" />
 
         <TextView
             android:layout_width="0dp"
@@ -220,22 +231,10 @@
             android:textSize="@dimen/fontSize" />
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/right" />
+            android:src="@drawable/right"
+            app:tint="@color/background" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/exitLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="@color/fontColor"
-        android:text="退出登录"
-        android:textColor="@color/white"
-        android:textSize="@dimen/fontSize"
-        android:visibility="gone" />
-
-
 </LinearLayout>

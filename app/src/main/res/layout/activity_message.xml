@@ -41,21 +41,190 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="Login"
+                android:text="@string/app_name"
                 android:textColor="@color/black"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
+            <EditText
+                android:id="@+id/title_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/app_name"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
-            <Button
-                android:id="@+id/login"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@color/fontColor"
-                android:text="Login"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="QQ号："
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontSize" />
+
+                <TextView
+                    android:id="@+id/qq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontSize" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="密码："
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontSize" />
+
+                <TextView
+                    android:id="@+id/qq_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="******"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontSize" />
+
+                <EditText
+                    android:id="@+id/qq_password_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="******"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontSize"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@color/red"
+                android:textSize="@dimen/fontSmallSize" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/collect"
+                        app:tint="@color/background" />
+
+                    <TextView
+                        android:id="@+id/collect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收藏"
+                        android:textColor="@color/fontColor"
+                        android:textSize="@dimen/fontSize" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/history"
+                        app:tint="@color/background" />
+
+                    <TextView
+                        android:id="@+id/history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="历史"
+                        android:textColor="@color/fontColor"
+                        android:textSize="@dimen/fontSize" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/publish"
+                        app:tint="@color/background" />
+
+                    <TextView
+                        android:id="@+id/publish"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="发布"
+                        android:textColor="@color/fontColor"
+                        android:textSize="@dimen/fontSize" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/modify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/background"
+                android:text="修改个人信息"
                 android:textColor="@color/white"
                 android:textSize="@dimen/fontSize" />
+
+            <TextView
+                android:id="@+id/cancellation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="注销账号"
+                android:textColor="@color/red"
+                android:textSize="@dimen/fontSuperSmallSize" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

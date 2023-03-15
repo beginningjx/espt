@@ -3,6 +3,7 @@ package com.espt.jx.ui.activity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.espt.jx.R
 import com.espt.jx.ui.fragment.HomeFragment
 import com.espt.jx.ui.fragment.MyFragment
+import com.espt.jx.utils.FlowBus
 import com.espt.jx.utils.LoginUtils
 import com.espt.jx.utils.StatusBarUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -33,7 +35,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         init()
         initView()
     }
@@ -65,8 +66,15 @@ class MainActivity : AppCompatActivity() {
             mViewPager2.currentItem = 1
         }
 
+        val registerForActivityResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == 0) {
+                    FlowBus.send("HomeFragment")
+                }
+            }
+
         mFloatingActionButton.setOnClickListener {
-            LoginUtils.isLogin(this, SellActivity::class.java)
+            LoginUtils.isLogin(this, SellActivity::class.java, registerForActivityResult)
         }
     }
 

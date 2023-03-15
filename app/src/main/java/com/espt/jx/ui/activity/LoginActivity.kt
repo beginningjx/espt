@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.espt.jx.App
 import com.espt.jx.R
 import com.espt.jx.dao.User
-import com.espt.jx.utils.LiveDataUtils
+import com.espt.jx.utils.FlowBus
 import com.espt.jx.utils.LoginUtils
 import com.espt.jx.utils.StatusBarUtils
 import com.google.gson.Gson
@@ -144,13 +144,10 @@ class LoginActivity : AppCompatActivity() {
                             user.qq_picture
                         )
 
-                        withContext(Dispatchers.Main) {
-                            // 发送通知
-                            LiveDataUtils.mutableLiveData.postValue(0)
-                        }
+                        // 发送通知
+                        FlowBus.send("MyFragment", 0)
 
                         finish()
-
                     } else {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(applicationContext, "用户名或密码错误！", Toast.LENGTH_SHORT)

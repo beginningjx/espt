@@ -6,17 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.espt.jx.R
-import com.espt.jx.utils.LiveDataUtils
 import com.espt.jx.ui.activity.*
 import com.espt.jx.utils.DataStoreUtils
+import com.espt.jx.utils.FlowBus
 import com.espt.jx.utils.LoginUtils
 
 
@@ -33,7 +33,6 @@ class MyFragment : Fragment() {
     private var mMessage: LinearLayout? = null
     private var mFeedback: LinearLayout? = null
     private var mSetting: LinearLayout? = null
-    private var mExitLogin: Button? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +57,6 @@ class MyFragment : Fragment() {
         mMessage = view?.findViewById(R.id.message)
         mFeedback = view?.findViewById(R.id.feedback)
         mSetting = view?.findViewById(R.id.setting)
-        mExitLogin = view?.findViewById(R.id.exitLogin)
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -66,9 +64,11 @@ class MyFragment : Fragment() {
 
         initLogin()
 
-        // 接收通知
-        LiveDataUtils.mutableLiveData.observe(requireActivity()) {
-            initLogin()
+        FlowBus.receive("MyFragment") {
+            when (it) {
+                0 -> initLogin()
+                1 -> exitLogin()
+            }
         }
 
         mLogin?.setOnClickListener {
@@ -93,22 +93,25 @@ class MyFragment : Fragment() {
             LoginUtils.isLogin(requireActivity(), FeedbackActivity::class.java)
         }
         mSetting?.setOnClickListener {
-            startActivity(Intent(requireActivity(), SettingActivity::class.java))
+            LoginUtils.isLogin(requireActivity(), SettingActivity::class.java)
         }
+    }
 
-        mExitLogin?.setOnClickListener {
-            // 退出登录
-            DataStoreUtils.clearData()
+    /**
+     * 退出登录
+     */
+    private fun exitLogin() {
+        // 退出登录
+        DataStoreUtils.clearData()
 
-            // 初始化登录
-            initLogin(
-                mQqPicture!!,
-                ContextCompat.getDrawable(requireContext(), R.mipmap.ic_launcher)!!,
-                "点击登录",
-                "",
-                View.GONE
-            )
-        }
+        // 初始化登录
+        initLogin(
+            mQqPicture!!,
+            ContextCompat.getDrawable(requireContext(), R.mipmap.ic_launcher)!!,
+            "点击登录",
+            ""
+        )
+        Toast.makeText(requireContext(), "已退出登录", Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -117,14 +120,12 @@ class MyFragment : Fragment() {
      * @param [drawable] 图片
      * @param [qqName] qq名字
      * @param [qq] qq
-     * @param [int] 隐藏
      */
-    private fun <T> initLogin(
+    private fun initLogin(
         imageView: ImageView,
-        drawable: T,
+        drawable: Any,
         qqName: String,
-        qq: String,
-        int: Int
+        qq: String
     ) {
         // 初始化登录
         Glide.with(imageView)
@@ -132,7 +133,6 @@ class MyFragment : Fragment() {
             .into(imageView)
         mQqName?.text = qqName
         mQq?.text = qq
-        mExitLogin?.visibility = int
     }
 
 
@@ -143,8 +143,7 @@ class MyFragment : Fragment() {
                 mQqPicture!!,
                 DataStoreUtils.getData("qq_picture", ""),
                 DataStoreUtils.getData("qq_name", ""),
-                DataStoreUtils.getData("qq", ""),
-                View.VISIBLE
+                DataStoreUtils.getData("qq", "")
             )
         }
     }

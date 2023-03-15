@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.espt.jx.R
-import com.espt.jx.ui.activity.SellActivity
 
 class SellAdapter(private val mList: ArrayList<String>) :
     RecyclerView.Adapter<SellAdapter.ViewHolder>() {

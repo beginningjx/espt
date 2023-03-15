@@ -1,9 +1,6 @@
 package com.espt.jx.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface UserDao {
@@ -46,6 +43,9 @@ interface UserDao {
     @Insert
     fun insert(user: User)
 
-    @Delete
-    fun delete(user: User)
+    @Update
+    fun update(user: User)
+
+    @Query("delete from user where id = :id")
+    fun delete(id: Int)
 }

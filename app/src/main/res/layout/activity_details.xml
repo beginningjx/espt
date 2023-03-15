@@ -7,7 +7,7 @@
     android:background="@color/white"
     tools:context=".ui.activity.DetailsActivity">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -69,7 +69,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="1"
@@ -77,11 +77,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="150dp" />
+                android:layout_height="100dp" />
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -97,7 +97,7 @@
             android:layout_height="30dp"
             android:scaleType="fitCenter"
             android:src="@drawable/left"
-            app:tint="@color/black" />
+            app:tint="@color/background" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="30dp"
@@ -164,7 +164,7 @@
             android:layout_weight="1"
             android:background="@color/background"
             android:text="我想要"
-            android:textColor="@color/fontColor"
+            android:textColor="@color/white"
             android:textSize="@dimen/fontBigSize"
             android:textStyle="bold" />
     </LinearLayout>

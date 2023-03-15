@@ -3,6 +3,7 @@ package com.espt.jx.utils
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import com.espt.jx.ui.activity.LoginActivity
 
 object LoginUtils {
@@ -21,14 +22,23 @@ object LoginUtils {
         DataStoreUtils.setData("qq_picture", qq_picture)
     }
 
+
     /**
      * 是否登录
      * @param [mContext] 上下文
      * @param [loginActivity] 登录Activity
      */
-    fun isLogin(mContext: Context, loginActivity: Class<*>) {
+    fun isLogin(
+        mContext: Context,
+        loginActivity: Class<*>,
+        registerForActivityResult: ActivityResultLauncher<Intent>? = null
+    ) {
         if (DataStoreUtils.getData("id", 0) != 0) {
-            mContext.startActivity(Intent(mContext, loginActivity))
+            if (registerForActivityResult == null) {
+                mContext.startActivity(Intent(mContext, loginActivity))
+            } else {
+                registerForActivityResult.launch(Intent(mContext, loginActivity))
+            }
         } else {
             Toast.makeText(mContext, "请登录后在操作", Toast.LENGTH_SHORT).show()
             mContext.startActivity(Intent(mContext, LoginActivity::class.java))
